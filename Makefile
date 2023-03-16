@@ -1,5 +1,5 @@
 .PHONY: all downloadess
-
+all: fsts/ess-2.8/l2s.fomabin analyses/ess.tsv
 fsts/ess-2.8/l2s.fomabin: fsts/ess-2.8/ess.foma
 	cd fsts/ess-2.8/; make -f Makefile l2s.fomabin
 
