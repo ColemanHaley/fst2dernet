@@ -1,7 +1,10 @@
 .PHONY: all downloadess
 
-fsts/ess-2.8/ess.fomabin: fsts/ess-2.8/ess.foma
-	cd fsts/ess-2.8/; make -f Makefile ess.fomabin
+fsts/ess-2.8/l2s.fomabin: fsts/ess-2.8/ess.foma
+	cd fsts/ess-2.8/; make -f Makefile l2s.fomabin
+
+analyses/ess.tsv:
+	cat fsts/ess-2.8/tests/**/*.tsv > $@
 	
 fsts/ess-2.8/ess.foma:
 	@mkdir -p fsts/
