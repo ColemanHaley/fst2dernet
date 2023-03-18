@@ -43,7 +43,7 @@ def add_child_to_parent(parent,js:dict,child):
     for i in range(len(js["children"])):
         add_child_to_parent(parent,js["children"][i],child) #continue exploring other children
 
-def construct_js(root,save_dir=None):
+def construct_js(root):
     """
     Construct a json dictionary representing the derivational network, given the root. 
 
@@ -60,7 +60,7 @@ def construct_js(root,save_dir=None):
             js["name"] = raw
             js["children"] = []
         else: 
-            if i>0 and raw == info.iloc[i-1]["raw"]: #don't add duplicated form to the json 
+            if i>0 and raw == info.iloc[i-1]["raw"]: #remove duplicated form from the js dict.
                 continue
 
             parent = info[info["idx"] == parent_id]["raw"].item()
