@@ -6,84 +6,377 @@ https://stackoverflow.com/questions/59783070/d3-v5-radial-tree-cluster
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>D3.js Radial Tree Example</title>
-        <script src="https://d3js.org/d3.v6.min.js"></script>
-        <style>
-            svg {
-                border: solid 1px #ccc;
-            }
-            .link {
-                fill: none;
-                stroke: #ccc;
-                stroke-width: 1.5px;
-            }
-        </style>
-    </head>
-    <body>
- 
- 
-<script type="text/javascript">
 
-    let root = {"name": "aanuuq", "children": [{"name": "aanaghesnaghtuuq"}, {"name": "aanumaaq"}, {"name": "aanlaghatuuq"}, {"name": "aanaaq"}, {"name": "aanaquuq"}, {"name": "aanqaghtuuq"}, {"name": "aanesigwatuuq"}, {"name": "aanesugtuuq"}, {"name": "aanutuuq"}, {"name": "aanyaghaghtuuq"}, {"name": "aanesquuq"}, {"name": "aanutuuq"}, {"name": "aanellequuq"}, {"name": "aanaquuq"}]}
+<head>
+    <title>D3.js Radial Tree Example</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style>
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 1.5px;
+        }
 
-let createRadialTree = function (input) {
-    let height = 600;
-    let width = 600;
+        #graph {
+            width: 3000px;
+            margin-right: -50%;
+            /* transform: translate(-50%, -50%); */
+            position: absolute;
+        }
 
-    let svg = d3.select('body')
-        .append('svg')
-        .attr('width', width)
-        .attr('height', height);
+        #graphcontainer {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
 
-    let diameter = height * 0.75;
-    let radius = diameter / 2;
+<body>
+    <div id="graphcontainer">
+        <div id="graph"></div>
+    </div>
 
-    let tree = d3.tree()
-        .size([2*Math.PI, radius])
-        .separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
 
-    let data = d3.hierarchy(input)
 
-    let treeData = tree(data);
-   
-    let nodes = treeData.descendants();
-    let links = treeData.links();
-    
-    let graphGroup = svg.append('g')
-        .attr('transform', "translate("+(width/2)+","+(height/2)+")");
+    <script type="text/javascript">
 
-    graphGroup.selectAll(".link")
-        .data(links)
-        .join("path")
-        .attr("class", "link")
-        .attr("d", d3.linkRadial()
-            .angle(d => d.x)
-            .radius(d => d.y));
- 
-    let node = graphGroup
-        .selectAll(".node")
-        .data(nodes)
-        .join("g")
-        .attr("class", "node")
-        .attr("transform", function(d){
-            return `rotate(${d.x * 180 / Math.PI - 90})` + `translate(${d.y}, 0)`;
+        let root = { "name": "piiq", "attested": true, "children": [{ "name": "pisnaanghitaa", "attested": true }, { "name": "pisnanightuq", "attested": false, "children": [{ "name": "pisnaniqaaq", "attested": true }, { "name": "pisnanighaqaa", "attested": true }, { "name": "pisnanillaak", "attested": false, "children": [{ "name": "pisnanillelaak", "attested": true }] }, { "name": "pisnanillaaq", "attested": true }] }, { "name": "pistuq", "attested": false, "children": [{ "name": "pislequq", "attested": false, "children": [{ "name": "pislequn", "attested": true }] }, { "name": "pisleqaa", "attested": true }, { "name": "pisnaghtuq", "attested": false, "children": [{ "name": "pisnaquuq", "attested": false, "children": [{ "name": "pisnaqutkuq", "attested": false, "children": [{ "name": "pisnaqutkaqaa", "attested": true }] }] }] }, { "name": "pisneghitaa", "attested": true }, { "name": "pistaquq", "attested": true, "children": [{ "name": "pistaqka", "attested": true }] }, { "name": "pistaqaa", "attested": true }, { "name": "pistesquq", "attested": false, "children": [{ "name": "pistesqellugtuq", "attested": false, "children": [{ "name": "pistesqellukuuq", "attested": true }] }] }, { "name": "pistekayuk", "attested": false, "children": [{ "name": "pistekayuguuq", "attested": false, "children": [{ "name": "pistekayuguyaghtuq", "attested": false, "children": [{ "name": "pistekayuguyaqaaq", "attested": false, "children": [{ "name": "pistekayuguyaqangaa", "attested": true }] }] }] }] }, { "name": "pisteghllagtuq", "attested": false, "children": [{ "name": "pisteghllanghitaa", "attested": true }] }, { "name": "pistellaaq", "attested": false, "children": [{ "name": "pistellghightuq", "attested": false, "children": [{ "name": "pistellghituuq", "attested": true }] }] }] }, { "name": "pistaa", "attested": true }, { "name": "piighaghtuq", "attested": true }, { "name": "pipagtuq", "attested": false, "children": [{ "name": "pipagnanightuq", "attested": false, "children": [{ "name": "pipagnanightuq", "attested": true }] }] }, { "name": "pipagningituq", "attested": false, "children": [{ "name": "pipagningitaquq", "attested": true }, { "name": "pipagningitngwaaghtuq", "attested": false, "children": [{ "name": "pipagningitngwaaghtuq", "attested": true }] }] }, { "name": "piquq", "attested": false, "children": [{ "name": "piqaghtaghtuq", "attested": true }, { "name": "piqaghtuq", "attested": false, "children": [{ "name": "piqaghhnaghtuq", "attested": false, "children": [{ "name": "piqaghhnaqaghtuq", "attested": false, "children": [{ "name": "piqaghhnaqaaguq", "attested": false, "children": [{ "name": "piqaghhnaqaata", "attested": true }] }] }] }, { "name": "piqaghhnaqaa", "attested": true }] }] }, { "name": "pisightuq", "attested": false, "children": [{ "name": "pisiiguq", "attested": true }] }, { "name": "pilaataquuq", "attested": true }, { "name": "pillequq", "attested": true, "children": [{ "name": "pilleqesta", "attested": true }, { "name": "pillequn", "attested": true }, { "name": "pilleqelghii", "attested": true }, { "name": "pillequqqa", "attested": true }] }, { "name": "pilleqaa", "attested": true }, { "name": "pima", "attested": true, "children": [{ "name": "pimakaaq", "attested": false, "children": [{ "name": "pimakanguq", "attested": true, "children": [{ "name": "pimakangiiq", "attested": true, "children": [{ "name": "pimakangiiqlu", "attested": true }] }] }, { "name": "pimakangaa", "attested": true }] }, { "name": "pimani", "attested": false, "children": [{ "name": "pimaniluk", "attested": true }] }, { "name": "pimayagtuq", "attested": false, "children": [{ "name": "pimayalghii", "attested": true }] }, { "name": "pimayaghtuq", "attested": false, "children": [{ "name": "pimayaqaaq", "attested": false, "children": [{ "name": "pimayaqanguq", "attested": true }] }] }, { "name": "pimakuq", "attested": false, "children": [{ "name": "pimakka", "attested": true }, { "name": "pimakiiq", "attested": false, "children": [{ "name": "pimakingaaq", "attested": true }] }] }, { "name": "pimakaa", "attested": true, "children": [{ "name": "pimakaallu", "attested": true }] }, { "name": "pimaluk", "attested": false, "children": [{ "name": "pimalukuq", "attested": false, "children": [{ "name": "pimalukiiq", "attested": true }] }, { "name": "pimalunguq", "attested": true }] }, { "name": "pimanguq", "attested": true, "children": [{ "name": "pimangiiq", "attested": false, "children": [{ "name": "pimangitaghtuq", "attested": false, "children": [{ "name": "pimangitaghpetuq", "attested": true }] }] }] }] }, { "name": "pimaaq", "attested": true, "children": [{ "name": "pimaftuq", "attested": true }, { "name": "pimaka", "attested": true }, { "name": "pimalghii", "attested": true }, { "name": "pimanghituq", "attested": true }, { "name": "pimaaquq", "attested": true, "children": [{ "name": "pimaaqsaghtuq", "attested": false, "children": [{ "name": "pimaaqsaqa", "attested": true }] }, { "name": "pimaaqka", "attested": true }, { "name": "pimaaqelghii", "attested": true }] }, { "name": "pimaaqaa", "attested": true }] }, { "name": "pimaa", "attested": true }, { "name": "pimanginaghtuq", "attested": true, "children": [{ "name": "pimanginaqaaq", "attested": false, "children": [{ "name": "pimanginaqangaa", "attested": true }] }, { "name": "pimanginaghaquq", "attested": false, "children": [{ "name": "pimanginaghaqeftaa", "attested": true }] }, { "name": "pimanginiisquq", "attested": false, "children": [{ "name": "pimanginiisqellugtuq", "attested": false, "children": [{ "name": "pimanginiisqelluka", "attested": true }] }] }] }, { "name": "pimangituq", "attested": true, "children": [{ "name": "pimangilnguq", "attested": true }, { "name": "pimangilka", "attested": true }, { "name": "pimangitiiq", "attested": true }, { "name": "pimangitngwaaghtuq", "attested": false, "children": [{ "name": "pimangitngwaaghiiq", "attested": true }] }] }, { "name": "pituq", "attested": false, "children": [{ "name": "pitaaq", "attested": false, "children": [{ "name": "pitaaghtuq", "attested": true }] }] }, { "name": "pitkuq", "attested": false, "children": [{ "name": "pitkuma", "attested": false, "children": [{ "name": "pitkumanguq", "attested": false, "children": [{ "name": "pitkumangiiq", "attested": false, "children": [{ "name": "pitkumangitaghtuq", "attested": true }] }] }] }, { "name": "pitkigatuq", "attested": true }, { "name": "pitkekaaq", "attested": true }, { "name": "pitkellugtuq", "attested": false, "children": [{ "name": "pitkellukuuq", "attested": true }] }] }, { "name": "pinaaq", "attested": true, "children": [{ "name": "pinayaghtuq", "attested": true, "children": [{ "name": "pinayalghii", "attested": true }, { "name": "pinayanghitaa", "attested": true }] }, { "name": "pinayaghaa", "attested": true, "children": [{ "name": "pinayaghaallu", "attested": true }] }, { "name": "pinaka", "attested": true }, { "name": "pineghta", "attested": true }] }, { "name": "pinaa", "attested": true }, { "name": "pinaaghtuq", "attested": true, "children": [{ "name": "pinaaghta", "attested": true }, { "name": "pinaaghnii", "attested": true }] }, { "name": "pinaaghaa", "attested": true }, { "name": "pinanightuq", "attested": true, "children": [{ "name": "pinanighyaghtuq", "attested": false, "children": [{ "name": "pinanighyalghii", "attested": true }] }, { "name": "pinaniiguq", "attested": false, "children": [{ "name": "pinaniima", "attested": true }, { "name": "pinaniituq", "attested": true }] }, { "name": "pinanighiiq", "attested": true }, { "name": "pinanighwaaghtuq", "attested": false, "children": [{ "name": "pinanighwaaqaaq", "attested": true }] }, { "name": "pinanightuq", "attested": true }] }, { "name": "pinaquq", "attested": true, "children": [{ "name": "pinaqniiq", "attested": true, "children": [{ "name": "pinaqnikaaq", "attested": true }] }, { "name": "pinaqnaaq", "attested": true }, { "name": "pinaqelghii", "attested": true }, { "name": "pinaqenghitaa", "attested": true }, { "name": "pinaqkayuk", "attested": true }, { "name": "pinaqellaaq", "attested": true, "children": [{ "name": "pinaqelleghqa", "attested": true }] }] }, { "name": "pinaqaa", "attested": true }, { "name": "pinaqlaataghtuq", "attested": true, "children": [{ "name": "pinaqlaataghnii", "attested": true }, { "name": "pinaqlaataghyaghtuq", "attested": false, "children": [{ "name": "pinaqlaataghyalghii", "attested": true }] }] }, { "name": "pinaqlaataghaa", "attested": true }, { "name": "pinaqutuq", "attested": false, "children": [{ "name": "pinaquska", "attested": false, "children": [{ "name": "pinaqusketaa", "attested": true }] }] }, { "name": "pinayaghaa", "attested": true, "children": [{ "name": "pinayaghaallu", "attested": true }] }, { "name": "pinayaghtuq", "attested": true, "children": [{ "name": "pinayalghii", "attested": true }, { "name": "pinayanghitaa", "attested": true }] }, { "name": "piviik", "attested": false, "children": [{ "name": "pivilaak", "attested": true }] }, { "name": "piyaaghaghtuq", "attested": true }, { "name": "piyaghtuq", "attested": true }, { "name": "piyaghqaaguq", "attested": true, "children": [{ "name": "piyaghqaanghitaa", "attested": true }, { "name": "piyaghqaata", "attested": true }, { "name": "piyaghqaanaghtuq", "attested": false, "children": [{ "name": "piyaghqaanayu", "attested": false, "children": [{ "name": "piyaghqaanayukuq", "attested": false, "children": [{ "name": "piyaghqaanayukuqta", "attested": true }] }] }] }, { "name": "piyaghqaayaghtuq", "attested": true, "children": [{ "name": "piyaghqaayalghii", "attested": true }, { "name": "piyaghqaayaghtuq", "attested": true }] }, { "name": "piyaghqaalghii", "attested": true }, { "name": "piyaghqaanghituq", "attested": true, "children": [{ "name": "piyaghqaanghitesugnituq", "attested": false, "children": [{ "name": "piyaghqaanghitesugnilnguq", "attested": true }] }] }] }, { "name": "piyaghqaaghtuq", "attested": false, "children": [{ "name": "piyaghqaaghtestaa", "attested": true }, { "name": "piyaghqaaghhniiq", "attested": false, "children": [{ "name": "piyaghqaaghhnillaaq", "attested": true }] }, { "name": "piyaghqaaghtekaaq", "attested": true }] }, { "name": "piyaghqaaq", "attested": true, "children": [{ "name": "piyaghqaaguq", "attested": true, "children": [{ "name": "piyaghqaata", "attested": true }, { "name": "piyaghqaanaghtuq", "attested": false, "children": [{ "name": "piyaghqaanayu", "attested": false, "children": [{ "name": "piyaghqaanayukuq", "attested": false, "children": [{ "name": "piyaghqaanayukuqta", "attested": true }] }] }] }, { "name": "piyaghqaayaghtuq", "attested": true, "children": [{ "name": "piyaghqaayalghii", "attested": true }, { "name": "piyaghqaayaghtuq", "attested": true }] }, { "name": "piyaghqaalghii", "attested": true }, { "name": "piyaghqaanghituq", "attested": true, "children": [{ "name": "piyaghqaanghitesugnituq", "attested": false, "children": [{ "name": "piyaghqaanghitesugnilnguq", "attested": true }] }] }] }, { "name": "piyaghqaaga", "attested": true }, { "name": "piyaghqapestaaq", "attested": false, "children": [{ "name": "piyaghqapestaaghuuq", "attested": false, "children": [{ "name": "piyaghqapestaaghunii", "attested": true }] }] }] }, { "name": "piyuggaaq", "attested": true }, { "name": "piyukaa", "attested": true }, { "name": "piyuwhaaghaa", "attested": true }, { "name": "piyuwhaaghtuq", "attested": false, "children": [{ "name": "piyuwhaaghaquq", "attested": true }, { "name": "piyuwhaallaak", "attested": true }, { "name": "piyuwhaallaaq", "attested": true }] }, { "name": "pinaaq", "attested": true, "children": [{ "name": "pinayaghtuq", "attested": true, "children": [{ "name": "pinayalghii", "attested": true }, { "name": "pinayanghitaa", "attested": true }] }, { "name": "pinayaghaa", "attested": true, "children": [{ "name": "pinayaghaallu", "attested": true }] }, { "name": "pinaka", "attested": true }, { "name": "pineghta", "attested": true }] }, { "name": "pineghllugtuq", "attested": true }, { "name": "piyaagtuq", "attested": false, "children": [{ "name": "piyaakaghtuq", "attested": true }] }, { "name": "piyuuq", "attested": true, "children": [{ "name": "piyutuq", "attested": false, "children": [{ "name": "piyutaaq", "attested": false, "children": [{ "name": "piyutaaghuuq", "attested": false, "children": [{ "name": "piyutaaghutuq", "attested": true }] }] }, { "name": "piyutaaghuq", "attested": false, "children": [{ "name": "piyutaaghaquq", "attested": true }] }] }] }, { "name": "piyaa", "attested": true }, { "name": "pika", "attested": true }, { "name": "pilghii", "attested": true, "children": [{ "name": "pilghiini", "attested": true }, { "name": "pilghiinguq", "attested": true }] }, { "name": "pinghitaa", "attested": true }, { "name": "pinghituq", "attested": true, "children": [{ "name": "pinghitellaaq", "attested": true }] }, { "name": "pinqegtuq", "attested": true }, { "name": "pinqigtuq", "attested": false, "children": [{ "name": "pinqigtesqaa", "attested": true }] }, { "name": "piiqnguq", "attested": true }, { "name": "piiqlu", "attested": true, "children": [{ "name": "piiqlunguq", "attested": true }] }, { "name": "piiquq", "attested": false, "children": [{ "name": "piiqsaghtuq", "attested": true }] }, { "name": "piiqaa", "attested": true }, { "name": "pisiiq", "attested": true, "children": [{ "name": "pisilguuq", "attested": true }] }, { "name": "pingaaq", "attested": false, "children": [{ "name": "pingayugtuq", "attested": true, "children": [{ "name": "pingayuguuq", "attested": true, "children": [{ "name": "pingayugulghii", "attested": true }, { "name": "pingayugaaquq", "attested": true }, { "name": "pingayugughtuq", "attested": false, "children": [{ "name": "pingayugughtellaaq", "attested": true }] }] }] }, { "name": "pingayu", "attested": true, "children": [{ "name": "pingayughtuq", "attested": true }, { "name": "pingayighaa", "attested": true }] }, { "name": "pingayuuq", "attested": false, "children": [{ "name": "pingayuqaa", "attested": true }, { "name": "pingayiiguq", "attested": false, "children": [{ "name": "pingayiita", "attested": true, "children": [{ "name": "pingayiitangituq", "attested": true }] }, { "name": "pingayiitkuq", "attested": true, "children": [{ "name": "pingayiitkun", "attested": true }] }] }] }, { "name": "pingallaaq", "attested": true }] }, { "name": "pilaghatuq", "attested": false, "children": [{ "name": "pilaghataquq", "attested": true }] }, { "name": "piiguq", "attested": true, "children": [{ "name": "piima", "attested": false, "children": [{ "name": "piimakaa", "attested": true }] }, { "name": "piita", "attested": false, "children": [{ "name": "piitesiiq", "attested": true }] }, { "name": "piighesnaghtuq", "attested": false, "children": [{ "name": "piighesnaghaqaa", "attested": true }] }] }, { "name": "piiga", "attested": true }, { "name": "pisquq", "attested": true, "children": [{ "name": "pisqesughtuq", "attested": false, "children": [{ "name": "pisqesullaak", "attested": true }, { "name": "pisqesullaaq", "attested": true }] }, { "name": "pisqelleqaa", "attested": true }, { "name": "pisquma", "attested": false, "children": [{ "name": "pisqumakaaq", "attested": false, "children": [{ "name": "pisqumakanguq", "attested": false, "children": [{ "name": "pisqumakangiiq", "attested": true }] }] }, { "name": "pisqumanguq", "attested": false, "children": [{ "name": "pisqumangiiq", "attested": false, "children": [{ "name": "pisqumangitaa", "attested": true }] }] }] }, { "name": "pisqigatuq", "attested": false, "children": [{ "name": "pisqigalkaaq", "attested": false, "children": [{ "name": "pisqigalkanguq", "attested": true }] }] }, { "name": "pisqekaaq", "attested": true }, { "name": "pisqaquq", "attested": true, "children": [{ "name": "pisqaqka", "attested": true }] }, { "name": "pisqaqaa", "attested": true }, { "name": "pisqii", "attested": true }, { "name": "pisqellaak", "attested": true, "children": [{ "name": "pisqellelaak", "attested": true }] }, { "name": "pisqellaaq", "attested": true }, { "name": "pisqellugtuq", "attested": false, "children": [{ "name": "pisqelluka", "attested": true }, { "name": "pisqellukuuq", "attested": true }] }] }, { "name": "pisqaa", "attested": true }, { "name": "pingwaaghtuq", "attested": true }, { "name": "pighllagtuq", "attested": false, "children": [{ "name": "pighllaglaataghtuq", "attested": false, "children": [{ "name": "pighllaglaataghtuq", "attested": true }] }, { "name": "pighllakaghtuq", "attested": false, "children": [{ "name": "pighllakayu", "attested": true }] }] }, { "name": "pighllagaa", "attested": true }, { "name": "pikestaghtuq", "attested": true, "children": [{ "name": "pikestaghaquq", "attested": false, "children": [{ "name": "pikestaghaqeftuq", "attested": true }] }, { "name": "pikestaaguq", "attested": false, "children": [{ "name": "pikestaalghii", "attested": false, "children": [{ "name": "pikestaalghiikuq", "attested": true }] }] }] }, { "name": "pillaak", "attested": true, "children": [{ "name": "pillguuq", "attested": false, "children": [{ "name": "pillguta", "attested": true }, { "name": "pillgunaghtuq", "attested": false, "children": [{ "name": "pillgunallaaq", "attested": true }] }] }] }, { "name": "pillaaq", "attested": true, "children": [{ "name": "pilleghqaaq", "attested": true, "children": [{ "name": "pilleghqaghlluk", "attested": false, "children": [{ "name": "pilleghqaghllugwaaq", "attested": true }] }, { "name": "pilleghqaghsiiq", "attested": true }, { "name": "pilleghqaqlu", "attested": true }, { "name": "pilleghqaquq", "attested": true }, { "name": "pilleghqalaak", "attested": false, "children": [{ "name": "pilleghqalegllu", "attested": true }] }, { "name": "pilleghqalguuq", "attested": false, "children": [{ "name": "pilleghqalgumaa", "attested": true }, { "name": "pilleghqalgunaaq", "attested": true }] }, { "name": "pilleghqalightuq", "attested": false, "children": [{ "name": "pilleghqalituuq", "attested": true }] }, { "name": "pilleghqanguq", "attested": true, "children": [{ "name": "pilleghqangesta", "attested": false, "children": [{ "name": "pilleghqangestenguq", "attested": false, "children": [{ "name": "pilleghqangestengngwaaghtuq", "attested": false, "children": [{ "name": "pilleghqangestengngwaaghuuq", "attested": false, "children": [{ "name": "pilleghqangestengngwaaghuma", "attested": false, "children": [{ "name": "pilleghqangestengngwaaghumakaaq", "attested": false, "children": [{ "name": "pilleghqangestengngwaaghumakangaa", "attested": true }] }] }] }] }] }] }] }, { "name": "pilleghqiiguq", "attested": false, "children": [{ "name": "pilleghqiita", "attested": true }] }, { "name": "pilleghqiightuq", "attested": false, "children": [{ "name": "pilleghqiighuuq", "attested": false, "children": [{ "name": "pilleghqiighusaghtuq", "attested": false, "children": [{ "name": "pilleghqiighusaghquq", "attested": true }, { "name": "pilleghqiighusaghtughtuq", "attested": false, "children": [{ "name": "pilleghqiighusaghtughtuq", "attested": true }] }] }] }] }] }, { "name": "pilleghni", "attested": true }, { "name": "pilleghsiiq", "attested": true }, { "name": "pilleghqun", "attested": true }, { "name": "pillghiituq", "attested": false, "children": [{ "name": "pillghiiskaaq", "attested": true }] }, { "name": "pillghightuq", "attested": false, "children": [{ "name": "pillghituuq", "attested": true }] }, { "name": "pillghituq", "attested": true }, { "name": "pillghuuq", "attested": true, "children": [{ "name": "pillghunii", "attested": true }] }, { "name": "pillghaa", "attested": true }, { "name": "pillghughtuq", "attested": false, "children": [{ "name": "pillghughtaghtuq", "attested": true }] }, { "name": "pilquq", "attested": true, "children": [{ "name": "pilqkaaq", "attested": false, "children": [{ "name": "pilqkanguq", "attested": true }] }, { "name": "pilqka", "attested": true }, { "name": "pilqelghii", "attested": true }, { "name": "pilqenghituq", "attested": true }] }, { "name": "pilleghtuq", "attested": false, "children": [{ "name": "pilleghtun", "attested": true }] }] }, { "name": "pilleghqaaq", "attested": true, "children": [{ "name": "pilleghqaghlluk", "attested": false, "children": [{ "name": "pilleghqaghllugwaaq", "attested": true }] }, { "name": "pilleghqaghsiiq", "attested": true }, { "name": "pilleghqaqlu", "attested": true }, { "name": "pilleghqaquq", "attested": true }, { "name": "pilleghqalaak", "attested": false, "children": [{ "name": "pilleghqalegllu", "attested": true }] }, { "name": "pilleghqalguuq", "attested": false, "children": [{ "name": "pilleghqalgumaa", "attested": true }, { "name": "pilleghqalgunaaq", "attested": true }] }, { "name": "pilleghqalightuq", "attested": false, "children": [{ "name": "pilleghqalituuq", "attested": true }] }, { "name": "pilleghqanguq", "attested": true, "children": [{ "name": "pilleghqangesta", "attested": false, "children": [{ "name": "pilleghqangestenguq", "attested": false, "children": [{ "name": "pilleghqangestengngwaaghtuq", "attested": false, "children": [{ "name": "pilleghqangestengngwaaghuuq", "attested": false, "children": [{ "name": "pilleghqangestengngwaaghuma", "attested": false, "children": [{ "name": "pilleghqangestengngwaaghumakaaq", "attested": false, "children": [{ "name": "pilleghqangestengngwaaghumakangaa", "attested": true }] }] }] }] }] }] }] }, { "name": "pilleghqiiguq", "attested": false, "children": [{ "name": "pilleghqiita", "attested": true }] }, { "name": "pilleghqiightuq", "attested": false, "children": [{ "name": "pilleghqiighuuq", "attested": false, "children": [{ "name": "pilleghqiighusaghtuq", "attested": false, "children": [{ "name": "pilleghqiighusaghquq", "attested": true }, { "name": "pilleghqiighusaghtughtuq", "attested": false, "children": [{ "name": "pilleghqiighusaghtughtuq", "attested": true }] }] }] }] }] }, { "name": "pillgituq", "attested": true }, { "name": "piqaghnaqaa", "attested": true }] }
+
+        let createRadialTree = function (input) {
+            let height = 1000;
+            let width = 1000;
+
+            let svg = d3.select('body')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            let diameter = height * 0.75;
+            let radius = diameter / 2;
+
+            let tree = d3.tree()
+                .size([2 * Math.PI, radius])
+                .separation(function (a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
+
+            let data = d3.hierarchy(input)
+
+            let treeData = tree(data);
+
+            let nodes = treeData.descendants();
+            let links = treeData.links();
+
+            let graphGroup = svg.append('g')
+                .attr('transform', "translate(" + (width / 2) + "," + (height / 2) + ")");
+
+            graphGroup.selectAll(".link")
+                .data(links)
+                .join("path")
+                .attr("class", "link")
+                .attr("d", d3.linkRadial()
+                    .angle(d => d.x)
+                    .radius(d => d.y));
+
+            let node = graphGroup
+                .selectAll(".node")
+                .data(nodes)
+                .join("g")
+                .attr("class", "node")
+                .attr("transform", function (d) {
+                    return `rotate(${d.x * 180 / Math.PI - 90})` + `translate(${d.y}, 0)`;
+                });
+
+
+            node.append("circle").attr("r", 1);
+
+            node.append("text")
+                .attr("font-family", "sans-serif")
+                .attr("font-size", function (d) {
+                    if (d.data.name == "pillguuq") {
+                        return 24;
+                    }
+                    return 12;
+                })
+                .attr("dx", function (d) { return d.x < Math.PI ? 8 : -8; })
+                .attr("dy", ".31em")
+                .attr("text-anchor", function (d) { return d.x < Math.PI ? "start" : "end"; })
+                .attr("transform", function (d) { return d.x < Math.PI ? null : "rotate(180)"; })
+                .text(function (d) { return d.data.name; })
+                ;
+        };
+        function Tree(data, { // data is either tabular (array of objects) or hierarchy (nested objects)
+            path, // as an alternative to id and parentId, returns an array identifier, imputing internal nodes
+            id = Array.isArray(data) ? d => d.id : null, // if tabular data, given a d in data, returns a unique identifier (string)
+            parentId = Array.isArray(data) ? d => d.parentId : null, // if tabular data, given a node d, returns its parent’s identifier
+            children, // if hierarchical data, given a d in data, returns its children
+            tree = d3.tree, // layout algorithm (typically d3.tree or d3.cluster)
+            separation = tree === d3.tree ? (a, b) => (a.parent == b.parent ? 1 : 2) / a.depth : (a, b) => a.parent == b.parent ? 1 : 2,
+            sort, // how to sort nodes prior to layout (e.g., (a, b) => d3.descending(a.height, b.height))
+            label, // given a node d, returns the display name
+            title, // given a node d, returns its hover text
+            link, // given a node d, its link (if any)
+            linkTarget = "_blank", // the target attribute for links (if any)
+            width = 640, // outer width, in pixels
+            height = 400, // outer height, in pixels
+            margin = 60, // shorthand for margins
+            marginTop = margin, // top margin, in pixels
+            marginRight = margin, // right margin, in pixels
+            marginBottom = margin, // bottom margin, in pixels
+            marginLeft = margin, // left margin, in pixels
+            radius = Math.min(width - marginLeft - marginRight, height - marginTop - marginBottom) / 2, // outer radius
+            r = 3, // radius of nodes
+            padding = 1, // horizontal padding for first and last column
+            fill = "#999", // fill for nodes
+            fillOpacity, // fill opacity for nodes
+            stroke = "#555", // stroke for links
+            strokeWidth = 1.5, // stroke width for links
+            strokeOpacity = 0.4, // stroke opacity for links
+            strokeLinejoin, // stroke line join for links
+            strokeLinecap, // stroke line cap for links
+            halo = "#fff", // color of label halo 
+            haloWidth = 3, // padding around the labels
+
+        } = {}) {
+
+            // If id and parentId options are specified, or the path option, use d3.stratify
+            // to convert tabular data to a hierarchy; otherwise we assume that the data is
+            // specified as an object {children} with nested objects (a.k.a. the “flare.json”
+            // format), and use d3.hierarchy.
+            const root = path != null ? d3.stratify().path(path)(data)
+                : id != null || parentId != null ? d3.stratify().id(id).parentId(parentId)(data)
+                    : d3.hierarchy(data, children);
+
+            // Sort the nodes.
+            if (sort != null) root.sort(sort);
+
+            // Compute labels and titles.
+            const descendants = root.descendants();
+            const L = label == null ? null : descendants.map(d => label(d.data, d));
+
+            // Compute the layout.
+            tree().size([2 * Math.PI, radius]).separation(separation)(root);
+
+            const svg = d3.create("svg")
+                .attr("viewBox", [-marginLeft - radius, -marginTop - radius, width, height])
+                .attr("width", width)
+                .attr("height", height)
+                .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
+                .attr("font-family", "sans-serif")
+                .attr("font-size", 10);
+
+            svg.append("g")
+                .attr("fill", "none")
+                .attr("stroke", stroke)
+                .attr("stroke-opacity", strokeOpacity)
+                .attr("stroke-linecap", strokeLinecap)
+                .attr("stroke-linejoin", strokeLinejoin)
+                .attr("stroke-width", strokeWidth)
+                .selectAll("path")
+                .data(root.links())
+                .join("path")
+                .attr("d", d3.linkRadial()
+                    .angle(d => d.x)
+                    .radius(d => d.y));
+
+            const node = svg.append("g")
+                .selectAll("a")
+                .data(root.descendants())
+                .join("a")
+                .attr("xlink:href", link == null ? null : d => link(d.data, d))
+                .attr("target", link == null ? null : linkTarget)
+                .attr("transform", d => `rotate(${d.x * 180 / Math.PI - 90}) translate(${d.y},0)`);
+
+            node.append("circle")
+                .attr("fill", d => d.children ? stroke : fill)
+                .attr("r", r)
+                .style("fill", function (d) {
+                    if (d.data.attested) {
+                        return "red";
+                    }
+                    return "black";
+                }).filter(function (d, i) { return i === 0; }).
+                attr("id", "root")
+                ;
+
+
+            if (title != null) node.append("title")
+                .text(d => title(d.data, d));
+
+            if (L) node.append("text")
+                .attr("transform", d => `rotate(${d.x >= Math.PI ? 180 : 0})`)
+                .attr("dy", "0.32em")
+                .attr("x", d => d.x < Math.PI === !d.children ? 6 : -6)
+                .attr("text-anchor", d => d.x < Math.PI === !d.children ? "start" : "end")
+                .attr("paint-order", "stroke")
+                .attr("stroke", halo)
+                .attr("stroke-width", haloWidth)
+                .text((d, i) => L[i])
+                .style("fill", function (d) {
+                    if (d.data.attested) {
+                        return "red";
+                    }
+                    return "black";
+                })
+                ;
+
+            return svg.node();
+        }
+
+        // Copyright 2021 Observable, Inc.
+        // Released under the ISC license.
+        // https://observablehq.com/@d3/tree
+        function CartTree(data, { // data is either tabular (array of objects) or hierarchy (nested objects)
+            path, // as an alternative to id and parentId, returns an array identifier, imputing internal nodes
+            id = Array.isArray(data) ? d => d.id : null, // if tabular data, given a d in data, returns a unique identifier (string)
+            parentId = Array.isArray(data) ? d => d.parentId : null, // if tabular data, given a node d, returns its parent’s identifier
+            children, // if hierarchical data, given a d in data, returns its children
+            tree = d3.tree, // layout algorithm (typically d3.tree or d3.cluster)
+            sort, // how to sort nodes prior to layout (e.g., (a, b) => d3.descending(a.height, b.height))
+            label, // given a node d, returns the display name
+            title, // given a node d, returns its hover text
+            link, // given a node d, its link (if any)
+            linkTarget = "_blank", // the target attribute for links (if any)
+            width = 640, // outer width, in pixels
+            height, // outer height, in pixels
+            r = 3, // radius of nodes
+            padding = 1, // horizontal padding for first and last column
+            fill = "#999", // fill for nodes
+            fillOpacity, // fill opacity for nodes
+            stroke = "#555", // stroke for links
+            strokeWidth = 1.5, // stroke width for links
+            strokeOpacity = 0.4, // stroke opacity for links
+            strokeLinejoin, // stroke line join for links
+            strokeLinecap, // stroke line cap for links
+            halo = "#fff", // color of label halo 
+            haloWidth = 3, // padding around the labels
+            curve = d3.curveBumpX, // curve for the link
+        } = {}) {
+
+            // If id and parentId options are specified, or the path option, use d3.stratify
+            // to convert tabular data to a hierarchy; otherwise we assume that the data is
+            // specified as an object {children} with nested objects (a.k.a. the “flare.json”
+            // format), and use d3.hierarchy.
+            const root = path != null ? d3.stratify().path(path)(data)
+                : id != null || parentId != null ? d3.stratify().id(id).parentId(parentId)(data)
+                    : d3.hierarchy(data, children);
+
+            // Sort the nodes.
+            if (sort != null) root.sort(sort);
+
+            // Compute labels and titles.
+            const descendants = root.descendants();
+            const L = label == null ? null : descendants.map(d => label(d.data, d));
+
+            // Compute the layout.
+            const dx = 10;
+            const dy = width / (root.height + padding);
+            tree().nodeSize([dx, dy])(root);
+
+            // Center the tree.
+            let x0 = Infinity;
+            let x1 = -x0;
+            root.each(d => {
+                if (d.x > x1) x1 = d.x;
+                if (d.x < x0) x0 = d.x;
+            });
+
+            // Compute the default height.
+            if (height === undefined) height = x1 - x0 + dx * 2;
+
+
+            // Use the required curve
+            if (typeof curve !== "function") throw new Error(`Unsupported curve`);
+
+            const svg = d3.create("svg")
+                .attr("viewBox", [-dy * padding / 2, x0 - dx, width, height])
+                .attr("width", width)
+                .attr("height", height)
+                .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
+                .attr("font-family", "sans-serif")
+                .attr("font-size", 10);
+
+            svg.append("g")
+                .attr("fill", "none")
+                .attr("stroke", stroke)
+                .attr("stroke-opacity", strokeOpacity)
+                .attr("stroke-linecap", strokeLinecap)
+                .attr("stroke-linejoin", strokeLinejoin)
+                .attr("stroke-width", strokeWidth)
+                .selectAll("path")
+                .data(root.links())
+                .join("path")
+                .attr("d", d3.linkHorizontal(curve)
+                    .x(d => d.y)
+                    .y(d => d.x));
+
+            const node = svg.append("g")
+                .selectAll("a")
+                .data(root.descendants())
+                .join("a")
+                .attr("xlink:href", link == null ? null : d => link(d.data, d))
+                .attr("target", link == null ? null : linkTarget)
+                .attr("transform", d => `translate(${d.y},${d.x})`);
+
+            node.append("circle")
+                .attr("fill", d => d.children ? stroke : fill)
+                .attr("r", r);
+
+            if (title != null) node.append("title")
+                .text(d => title(d.data, d));
+
+            if (L) node.append("text")
+                .attr("dy", "0.32em")
+                .attr("x", d => d.children ? -6 : 6)
+                .attr("text-anchor", d => d.children ? "end" : "start")
+                .attr("paint-order", "stroke")
+                .attr("stroke", halo)
+                .attr("stroke-width", haloWidth)
+                .text((d, i) => L[i]);
+
+            return svg.node();
+        }
+        t = Tree(root, {
+            label: d => d.name, width: 3200,
+            height: 3200,
+            margin: 10
         });
+        // insert t into dom at root of body
+        document.getElementById('graph').appendChild(t);
+        var svg = document.getElementsByTagName("svg")[0];
+        var bbox = svg.getBBox();
+        var viewBox = [bbox.x, bbox.y, bbox.width, bbox.height].join(" ");
+        svg.setAttribute("viewBox", viewBox);
+        document.getElementById('graph').style.width = bbox.width + 'px';
+
+        document.getElementById('graph').style.height = bbox.height + 'px';
+        // translate by dragging
+        let graph = document.querySelector("#graph"), x = 0, y = 0;
+        let rootsvg = document.querySelector("#root")
+        let cx = rootsvg.offsetX, cy = rootsvg.offsetY;
+        console.log(cx, cy)
+        graph.style.top = `${cy}px`;
+        graph.style.left = `${cx}px`;
+
+        function onDrag(e) {
+            // we could make them global variables instead
+            graph.style.left = `${e.clientX - x}px`;
+            graph.style.top = `${e.clientY - y}px`;
+        }
+
+        function onLetGo() {
+            document.removeEventListener('mousemove', onDrag);
+            document.removeEventListener('mouseup', onLetGo);
+        }
+
+        function onGrab(e) {
+            x = e.offsetX, y = e.offsetY;
+            document.addEventListener('mousemove', onDrag);
+            document.addEventListener('mouseup', onLetGo);
+        }
+
+        graph.addEventListener('mousedown', onGrab);
 
 
-    node.append("circle").attr("r", 1);
-
-    node.append("text")
-        .attr("font-family", "sans-serif")
-        .attr("font-size", 12)
-        .attr("dx", function(d) { return d.x < Math.PI ? 8 : -8; })
-        .attr("dy", ".31em")
-        .attr("text-anchor", function(d) { return d.x < Math.PI ? "start" : "end"; })
-        .attr("transform", function(d) { return d.x < Math.PI ? null : "rotate(180)"; })
-        .text(function(d) { return d.data.name; });
-};
-
-createRadialTree(root);
-</script>
+    </script>
 </body>
+
 </html>
